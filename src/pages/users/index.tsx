@@ -1,38 +1,18 @@
 import { Box, Text, Flex, Heading, Button, Icon, Table, Thead, Tbody, Tr, Th, Td, Checkbox, useBreakpointValue, Spinner } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import Link from 'next/link';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from "react";
 
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { SideBar } from "../../components/SideBar";
-import { useEffect } from "react";
+import { useUsers } from "../../services/hooks/useUsers";
 
 
 export default function UserList() {
-  const { data, isLoading, error } = useQuery('users', async () => {
-    const response = await fetch('http://localhost:3000/api/users')
-    const data = await response.json()
-    
-    const users = data.users.map(user => {
-      return {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        createdAt: new Date(user.createdAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        })
-      }
-    })
+  const [page, setPage] = useState(1)
+  const { data, isLoading, error, isFetching } = useUsers(page)
 
-    return users
-  }, {
-    staleTime: 1000 * 5 // 5 segundos 
-  })
-
-  console.log()
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -40,7 +20,9 @@ export default function UserList() {
   })
 
   useEffect(() => {
-    
+    fetch('http://localhost:3000/api/users')
+    .then(response => response.json())
+    .then(data => console.log(data))
   }, [])
 
   return (
@@ -52,7 +34,11 @@ export default function UserList() {
 
         <Box flex="1" borderRadius={8} bg="gray.800" p="8">
           <Flex mb="8" justify="space-between" align="center">
-            <Heading size="lg" fontWeight="normal">Usuários</Heading>
+            <Heading size="lg" fontWeight="normal">
+              Usuários
+
+              { !isLoading && isFetching && <Spinner size='sm' color='gray.500' ml='4' /> }
+            </Heading>
 
           <Link href='/users/create' passHref>
             <Button 
@@ -89,7 +75,7 @@ export default function UserList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map(user => {
+                {data.users.map(user => {
                   return (
                     <Tr key={user.id}>
                       <Td px={["4", "4", "6"]}>
@@ -119,7 +105,11 @@ export default function UserList() {
               </Tbody>
             </Table>
 
-            <Pagination />
+            <Pagination 
+              totalCountOfRegisters={data.totalCount}
+              currentPage={page}
+              onPageChange={setPage}
+            />
             </>
           )}
         </Box>
