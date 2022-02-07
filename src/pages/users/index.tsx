@@ -1,7 +1,7 @@
 import { Box, Link, Text, Flex, Heading, Button, Icon, Table, Thead, Tbody, Tr, Th, Td, Checkbox, useBreakpointValue, Spinner } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import NextLink from 'next/link';
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
@@ -21,7 +21,7 @@ export default function UserList() {
     lg: true,
   })
 
-  async function handlePrefetchUser(userId: number) {
+  async function handlePrefetchUser(userId: string) {
     await queryClient.prefetchQuery(['user', userId], async () => {
       const response = await api.get(`users/${userId}`)
 
