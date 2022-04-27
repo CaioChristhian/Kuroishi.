@@ -39,9 +39,9 @@
 
 <p>Mobile</p>
   <p align="center">
-  <img alt="SignUp" src=".github/create-user-mobile.jfif" width="20%" max-height="400px">
-  <img alt="SignUp" src=".github/home-mobile.jfif" width="20%" max-height="400px">
-  <img alt="SignUp" src=".github/drawer.jfif" width="20%" max-height="400px">
+  <img alt="SignUp" src=".github/create-user-mobile.jfif" width="20%" height="400px">
+  <img alt="SignUp" src=".github/home-mobile.jfif" width="20%" height="400px">
+  <img alt="SignUp" src=".github/drawer.jfif" width="20%" height="400px">
 </p>
 
 
