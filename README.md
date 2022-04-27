@@ -1,5 +1,5 @@
 <h1 align="center">
-    ignews 
+    Kuroishi. 
 </h1>
 
 <p align="center">
